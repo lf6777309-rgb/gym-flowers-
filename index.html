@@ -1,16 +1,185 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vídeo</title>
+    <title>Private Video Access</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        h1 {
+            font-size: 1.1rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            color: #4a3e3d;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* Formulário de Senha */
+        #password-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 25px;
+            border: 1px solid #d1c2bd;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #4a3e3d;
+            font-size: 1rem;
+            text-align: center;
+            letter-spacing: 3px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="password"]:focus {
+            border-color: #8c7269;
+            box-shadow: 0 0 8px rgba(140, 114, 105, 0.3);
+        }
+
+        /* Esconde o placeholder assim que o campo ganha foco (quando o usuário toca/clica) */
+        input[type="password"]:focus::placeholder {
+            color: transparent;
+        }
+
+        button {
+            padding: 12px;
+            border-radius: 25px;
+            border: none;
+            background-color: #7b8e70;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 10px rgba(123, 142, 112, 0.3);
+        }
+
+        button:hover {
+            background-color: #66775c;
+        }
+
+        .error-message {
+            color: #d9534f;
+            font-size: 0.8rem;
+            display: none;
+            margin-top: -4px;
+        }
+
+        /* Container do Vídeo */
+        #video-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+        }
+    </style>
 </head>
 <body>
 
-    <video width="100%" controls autoplay playlist muted playsinline>
-        <source src="video.mp4" type="video/mp4">
-        Seu navegador não suporta este vídeo.
-    </video>
+    <div class="card">
+        <!-- TELA DE SENHA -->
+        <div id="password-section">
+            <h1>ACCESS PASSWORD WILL BE SENT TO YOUR TELEGRAM, PLEASE WAIT...</h1>
+            
+            <input type="password" id="password-input" placeholder="Enter password here" maxlength="10">
+            <p id="error-message" class="error-message">Incorrect password. Please try again.</p>
+            
+            <button onclick="checkPassword()">Unlock Video</button>
+        </div>
+
+        <!-- REPRODUTOR DE VÍDEO -->
+        <div id="video-section">
+            <div class="video-wrapper">
+                <video id="my-video" controls playsinline>
+                    <source src="video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CORRECT_PASSWORD = "3003";
+
+        function checkPassword() {
+            const input = document.getElementById('password-input');
+            const errorMsg = document.getElementById('error-message');
+            const passwordSection = document.getElementById('password-section');
+            const videoSection = document.getElementById('video-section');
+            const videoPlayer = document.getElementById('my-video');
+
+            if (input.value === CORRECT_PASSWORD) {
+                passwordSection.style.display = 'none';
+                videoSection.style.display = 'block';
+                
+                setTimeout(() => {
+                    videoSection.style.opacity = '1';
+                }, 50);
+
+                videoPlayer.play();
+            } else {
+                errorMsg.style.display = 'block';
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        document.getElementById('password-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+    </script>
 
 </body>
 </html>
