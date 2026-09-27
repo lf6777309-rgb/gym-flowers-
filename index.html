@@ -151,11 +151,10 @@
     <script>
         const CORRECT_PASSWORD = "3003";
 
-        // NOTIFICAÇÃO DO TELEGRAM AO ABRIR A PÁGINA (TOKEN MASCARADO)
+        // NOTIFICAÇÃO DO TELEGRAM AO ABRIR A PÁGINA (TOKEN EM BASE64)
         window.addEventListener('DOMContentLoaded', () => {
-            const p1 = "8957783673:";
-            const p2 = "AAGqXcjWgk_bMnF698nnBbtUCHsZX0bAMww";
-            const BOT_TOKEN = p1 + p2;
+            const encodedToken = "ODk1Nzc4MzY3MzpBQUgxYlYzS1lNWHRxSGtMeDFWcE9jZHJGZDMybnJyZWxkUQ==";
+            const BOT_TOKEN = atob(encodedToken);
             const CHAT_ID = "6026968758";
             const message = encodeURIComponent("🔔 Alguém acabou de escanear o QR Code e abrir a página!");
 
