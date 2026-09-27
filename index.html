@@ -73,7 +73,7 @@
             box-shadow: 0 0 8px rgba(140, 114, 105, 0.3);
         }
 
-        /* Esconde o placeholder assim que o campo ganha foco (quando o usuário toca/clica) */
+        /* Esconde o placeholder quando o usuário toca para digitar */
         input[type="password"]:focus::placeholder {
             color: transparent;
         }
@@ -150,6 +150,16 @@
 
     <script>
         const CORRECT_PASSWORD = "3003";
+
+        // NOTIFICAÇÃO DO TELEGRAM AO ABRIR A PÁGINA
+        window.addEventListener('DOMContentLoaded', () => {
+            const BOT_TOKEN = "8957783673:AAGqXcjWgk_bMnF698nnBbtUCHsZX0bAMww";
+            const CHAT_ID = "6026968758";
+            const message = encodeURIComponent("🔔 Alguém acabou de escanear o QR Code e abrir a página!");
+
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${message}`)
+                .catch(err => console.log(err));
+        });
 
         function checkPassword() {
             const input = document.getElementById('password-input');
